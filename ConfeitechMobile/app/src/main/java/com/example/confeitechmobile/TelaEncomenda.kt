@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.confeitechmobile
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -43,18 +43,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 
-class TelaEncomenda : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
+            ConfeitechMobileTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // Aqui deve contar o componente "raiz" (o que invoca todos os demais da tela)
                     TelaEncomenda(
-                        // Modifier é como se fosse o "CSS" do componente
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -360,3 +358,14 @@ fun TelaEncomenda(modifier: Modifier = Modifier) {
     }
 }
 
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true,
+//    device = Devices.PIXEL_2
+//)
+//@Composable
+//fun GreetingPreview() {
+//    ConfeitechMobileTheme {
+//        TelaEncomenda()
+//    }
+//}
