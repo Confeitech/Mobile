@@ -369,7 +369,7 @@ fun telaAdministrador(modifier: Modifier = Modifier) {
     device = Devices.PIXEL_2
 )
 @Composable
-fun c() {
+fun showTelaEncomendasPendenteAdm() {
     ConfeitechMobileTheme {
         telaAdministrador()
     }

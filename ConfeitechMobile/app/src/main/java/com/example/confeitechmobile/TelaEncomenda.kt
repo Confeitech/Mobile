@@ -369,7 +369,7 @@ fun TelaEncomenda( modifier: Modifier = Modifier) {
     device = Devices.PIXEL_2
 )
 @Composable
-fun GreetingPreview() {
+fun showTelaDescricaoBolo() {
     ConfeitechMobileTheme {
         TelaEncomenda()
     }

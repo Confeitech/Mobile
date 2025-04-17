@@ -177,7 +177,7 @@ fun Greeting(modifier: Modifier = Modifier) {
     device = Devices.PIXEL_2
 )
 @Composable
-fun k() {
+fun showTelaEncomendasCliente() {
     ConfeitechMobileTheme {
         Greeting(
 

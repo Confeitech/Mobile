@@ -459,7 +459,7 @@ fun TelaCardapio(modifier: Modifier = Modifier) {
     device = Devices.PIXEL_2
 )
 @Composable
-fun f() {
+fun showCardapioCliente() {
     ConfeitechMobileTheme {
         TelaCardapio(
 
