@@ -1,6 +1,6 @@
 package com.example.confeitechmobile.model
 
-data class Bolo(
+data class BoloDTO(
     var id: Int? = null,
     var nome: String? = null,
     var preco: Double? = null,

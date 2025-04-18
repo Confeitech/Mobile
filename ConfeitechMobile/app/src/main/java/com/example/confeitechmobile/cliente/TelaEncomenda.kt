@@ -1,12 +1,7 @@
-package com.example.confeitechmobile
+package com.example.confeitechmobile.cliente
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,7 +20,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,140 +31,142 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
+import com.example.confeitechmobile.R
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
+import androidx.navigation.compose.rememberNavController
+
+//@Composable
+//fun Adicionais(nome: String, preco: String) {
+//
+//    // ADICIONAIS
+//    Row {
+//        Spacer(modifier = Modifier.weight(0.1f))
+//        Text(
+//            text = "Adicionais",
+//            style = TextStyle(
+//                fontSize = 15.sp,
+//                fontWeight = FontWeight.Bold,
+//            ),
+//            modifier = Modifier.weight(0.9f)
+//        )
+//    }
+//
+//    Spacer(modifier = Modifier.height(10.dp))
+//
+//    // CARDS
+//    Row(
+//        modifier = Modifier
+//            .horizontalScroll(rememberScrollState()), // Adiciona scroll horizontal
+//        horizontalArrangement = Arrangement.spacedBy(16.dp)
+//    ) {
+//
+//        //PARTE DE CIMA
+//        Spacer(modifier = Modifier.width(25.dp))
+//
+//        Column(
+//            modifier = Modifier
+//                .background(
+//                    color = Color(97, 48, 48),
+//                    shape = RoundedCornerShape(15.dp)
+//                )
+//                .height(120.dp)
+//                .width(90.dp),
+//
+//            ) {
+//            Spacer(modifier = Modifier.height(5.dp))
+//            Text(
+//                text = "Banana",
+//                style = TextStyle(
+//                    fontSize = 15.sp,
+//                    textAlign = TextAlign.Center,
+//                    color = Color.White
+//                ),
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            Spacer(modifier = Modifier.height(2.dp))
+//            Text(
+//                text = "R$ 2,00",
+//                style = TextStyle(
+//                    fontSize = 15.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    textAlign = TextAlign.Center,
+//                    color = Color.White
+//                ),
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//
+//            //LINHA
+//            Spacer(modifier = Modifier.height(15.dp))
+//            Box(
+//                modifier = Modifier
+//                    .height(1.dp)
+//                    .fillMaxWidth()
+//                    .background(color = Color.White)
+//            )
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            //PARTE DEBAIXO
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(30.dp)
+//            ) {
+//                Spacer(Modifier.width(10.dp))
+//                Text(
+//                    text = "-",
+//                    modifier = Modifier
+//                        .weight(0.2f)
+//                        .fillMaxHeight()
+//                        .absoluteOffset(y = (-3).dp),
+//                    style = TextStyle(
+//                        fontSize = 30.sp,
+//                        fontWeight = FontWeight.Bold
+//                    ),
+//                    color = Color.White,
+//                    textAlign = TextAlign.Center
+//                )
+//                Text(
+//                    text = "1",
+//                    modifier = Modifier
+//                        .weight(0.3f)
+//                        .fillMaxHeight()
+//                        .align(Alignment.CenterVertically),
+//                    style = TextStyle(
+//                        textAlign = TextAlign.Center,
+//                        fontSize = 25.sp,
+//                    ),
+//                    color = Color.White
+//                )
+//                Text(
+//                    text = "+",
+//                    modifier = Modifier
+//                        .weight(0.2f)
+//                        .fillMaxHeight()
+//                        .absoluteOffset(y = (-3).dp),
+//                    style = TextStyle(
+//                        fontSize = 30.sp
+//                    ),
+//                    color = Color.White,
+//                    textAlign = TextAlign.Center
+//                )
+//                Spacer(Modifier.width(10.dp))
+//            }
+//
+//
+//        }
+//
+//    }
+//
+//}
 
 @Composable
-fun Adicionais(nome: String, preco: String) {
-
-    // ADICIONAIS
-    Row {
-        Spacer(modifier = Modifier.weight(0.1f))
-        Text(
-            text = "Adicionais",
-            style = TextStyle(
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-            ),
-            modifier = Modifier.weight(0.9f)
-        )
-    }
-
-    Spacer(modifier = Modifier.height(10.dp))
-
-    // CARDS
-    Row(
-        modifier = Modifier
-            .horizontalScroll(rememberScrollState()), // Adiciona scroll horizontal
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-
-        //PARTE DE CIMA
-        Spacer(modifier = Modifier.width(25.dp))
-
-        Column(
-            modifier = Modifier
-                .background(
-                    color = Color(97, 48, 48),
-                    shape = RoundedCornerShape(15.dp)
-                )
-                .height(120.dp)
-                .width(90.dp),
-
-            ) {
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(
-                text = "Banana",
-                style = TextStyle(
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center,
-                    color = Color.White
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = "R$ 2,00",
-                style = TextStyle(
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    color = Color.White
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            //LINHA
-            Spacer(modifier = Modifier.height(15.dp))
-            Box(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(color = Color.White)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            //PARTE DEBAIXO
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-            ) {
-                Spacer(Modifier.width(10.dp))
-                Text(
-                    text = "-",
-                    modifier = Modifier
-                        .weight(0.2f)
-                        .fillMaxHeight()
-                        .absoluteOffset(y = (-3).dp),
-                    style = TextStyle(
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "1",
-                    modifier = Modifier
-                        .weight(0.3f)
-                        .fillMaxHeight()
-                        .align(Alignment.CenterVertically),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                        fontSize = 25.sp,
-                    ),
-                    color = Color.White
-                )
-                Text(
-                    text = "+",
-                    modifier = Modifier
-                        .weight(0.2f)
-                        .fillMaxHeight()
-                        .absoluteOffset(y = (-3).dp),
-                    style = TextStyle(
-                        fontSize = 30.sp
-                    ),
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(Modifier.width(10.dp))
-            }
-
-
-        }
-
-    }
-
-}
-
-@Composable
-fun TelaEncomenda( modifier: Modifier = Modifier) {
+fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -300,7 +295,7 @@ fun TelaEncomenda( modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                Adicionais("", "")
+//                Adicionais("", "")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -332,7 +327,7 @@ fun TelaEncomenda( modifier: Modifier = Modifier) {
 
                 Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                     Button(
-                        onClick = {  },
+                        onClick = { navController.navigate("telaEncomendasCliente") },
                         modifier = Modifier
                             .height(80.dp)
                             .width(250.dp),
@@ -371,6 +366,7 @@ fun TelaEncomenda( modifier: Modifier = Modifier) {
 @Composable
 fun showTelaDescricaoBolo() {
     ConfeitechMobileTheme {
-        TelaEncomenda()
+        val navController = rememberNavController()
+        TelaEncomenda(navController = navController)
     }
 }

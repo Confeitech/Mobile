@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.confeitechmobile.ConfeitechApiSla
-import com.example.confeitechmobile.EncomendaDTO
+import com.example.confeitechmobile.model.EncomendaDTO
 import kotlinx.coroutines.launch
 
 class EncomendaViewModel : ViewModel() {
