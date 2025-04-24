@@ -1,4 +1,4 @@
-package com.example.confeitechmobile.model
+package com.example.confeitechmobile.dto
 
 data class EncomendaDTO(
     var id: Long? = null,
@@ -9,5 +9,7 @@ data class EncomendaDTO(
     var adicionais: String? = null,
     var andamento: String? = null,
     var dataCriacao: String? = null,
-    var dataRetirada: String? = null
+    var dataRetirada: String? = null,
+    var userDTO: UsuarioDTO? = null
+
 )

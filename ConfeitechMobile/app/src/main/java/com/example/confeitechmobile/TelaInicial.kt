@@ -11,23 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.confeitechmobile.adm.telaAdministrador
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import com.example.confeitechmobile.viewmodel.EncomendaViewModel
-
-//class TelaInicial : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        setContent {
-//            ConfeitechMobileTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    telaAdministrador(viewModel<EncomendaViewModel>())
-//                }
-//            }
-//        }
-//    }
-//}
 
 class TelaInicial : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +20,11 @@ class TelaInicial : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ConfeitechMobileTheme {
+                val viewModel: EncomendaViewModel = viewModel()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val encomendaViewModel = viewModel<EncomendaViewModel>()
-                    AppNavigation(viewModel = encomendaViewModel)
+                    // Use o sistema de navegação que você criou
+                    AppNavigation(viewModel = viewModel)
                 }
             }
         }

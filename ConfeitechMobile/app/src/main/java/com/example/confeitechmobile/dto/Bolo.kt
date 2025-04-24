@@ -1,4 +1,4 @@
-package com.example.confeitechmobile.model
+package com.example.confeitechmobile.dto
 
 data class BoloDTO(
     var id: Int? = null,

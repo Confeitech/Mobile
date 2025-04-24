@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,7 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,25 +43,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.confeitechmobile.R
-import com.example.confeitechmobile.dto.AndamentoEncomenda
 import com.example.confeitechmobile.dto.EncomendaDTO
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import com.example.confeitechmobile.viewmodel.EncomendaViewModel
 
 @Composable
-fun botoesPendentesAceita(navController: NavController) {
+fun botoesPendentesAceitaEncomendaAceita(navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
 
         Button(
-            onClick = {  },
+            onClick = { navController.navigate("telaAdministrador") },
             modifier = Modifier
                 .height(40.dp)
                 .width(165.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF481F1F),
+                containerColor = Color(0xFFFF7070),
                 contentColor = Color.White
             ),
             shape = RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
@@ -76,12 +74,12 @@ fun botoesPendentesAceita(navController: NavController) {
             )
         }
         Button(
-            onClick = { navController.navigate("telaAdministradorEncomendaAceita") },
+            onClick = { },
             modifier = Modifier
                 .height(40.dp)
                 .width(165.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF7070),
+                containerColor = Color(0xFF481F1F),
                 contentColor = Color.White
             ),
             shape = RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
@@ -97,8 +95,11 @@ fun botoesPendentesAceita(navController: NavController) {
     }
 }
 
+
 @Composable
-fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navController: NavController) {
+fun cardAceita(
+    encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navController: NavController
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,6 +120,7 @@ fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navControlle
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     encomendaDTO.bolo?.nome ?: "Bolo Desconhecido",
+//                    "Bolo Desconhecido",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color(android.graphics.Color.parseColor("#FFD9D9"))
@@ -126,16 +128,19 @@ fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navControlle
 
                 Text(
                     "retirada: ${encomendaDTO.dataRetirada ?: "Data não informada"}",
+//                    "data",
                     color = Color.White,
                     fontSize = 14.sp
                 )
                 Text(
                     "R$ ${encomendaDTO.preco ?: "Preço indefinido"}",
+//                    "R$ Preco",
                     color = Color.White,
                     fontSize = 14.sp
                 )
                 Text(
-                    "Cliente: ${encomendaDTO?.userDTO?.nome ?: "Preço indefinido"}",
+//                    "Cliente: ${encomendaDTO?.userDTO?.nome ?: "Preço indefinido"}",
+                    "Cliente: aaaaa",
                     color = Color.White,
                     fontSize = 14.sp
                 )
@@ -143,36 +148,23 @@ fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navControlle
 
                 Row(
                     modifier = Modifier.fillMaxWidth(), // Preenche a largura total
-                    horizontalArrangement = Arrangement.End  // Alinhamento à direita
+                    horizontalArrangement = Arrangement.SpaceEvenly  // Alinhamento à direita
                 ) {
 
-                    Button(
-                        onClick = {
-                            viewModel.atualizarAndamentoEncomenda(
-                                encomendaDTO.id!!,
-                                AndamentoEncomenda.EM_PREPARO,
-                            )
-                            viewModel.atualizarLista()
-                            navController.navigate("telaAdministradorEncomendaAceita")
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6BCF6B)),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text("✔", color = Color.Black, fontSize = 18.sp)
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Button(
-                        onClick = {
-                            viewModel.atualizarAndamentoEncomenda(
-                                encomendaDTO.id!!,
-                                AndamentoEncomenda.CANCELADA
-                            )
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEE6C6C)),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text("✖", color = Color.Black, fontSize = 18.sp)
-                    }
+                    Text(
+//                        "${encomendaDTO.andamento}",
+                        "Em preparo",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Ícone do botão",
+                        tint = Color.White,
+                        modifier = Modifier
+                    )
+
                 }
             }
 
@@ -182,24 +174,22 @@ fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navControlle
 
     }
 }
-
 @Composable
-fun telaAdministrador(
+fun telaAdministradorEncomendaAceita(
     viewModel: EncomendaViewModel,
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController() // valor padrão
+    navController: NavController = rememberNavController()
 ) {
-    // Chama a função atualizarLista() Aqui
-    LaunchedEffect(Unit) {
-        viewModel.atualizarLista()
-    }
-    var lista = viewModel.lista
-    var carregando = viewModel.isChamandoApi()
-    var erros = viewModel.erros
+    val lista = viewModel.lista
+    val carregando = viewModel.isChamandoApi()
+    val erros = viewModel.erros
 
     var valorA by remember { mutableStateOf("") }
 
-
+    // 🔄 Chamada à API para buscar encomendas aceitas
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        viewModel.carregarEncomendasAceitas()
+    }
 
     Column(
         modifier = modifier
@@ -209,93 +199,32 @@ fun telaAdministrador(
                     colors = listOf(Color(0xFFFFCFCF), Color(0xFFFFFFFF))
                 )
             )
-            .fillMaxSize()  // Preenche toda a tela
-            .padding(16.dp),  // Adiciona padding ao redor
-        horizontalAlignment = Alignment.CenterHorizontally,  // Centraliza horizontalmente
-    )
-    {
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "Cakes Aricroce")
 
         Row {
-
             OutlinedTextField(
-
-
                 value = valorA,
                 onValueChange = { valorA = it },
                 label = { Text("Pesquisar") },
                 trailingIcon = {
-                    // Adiciona o ícone da lupa dentro da caixa de texto
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "Carrinho de compras",
+                        contentDescription = "Buscar",
                         modifier = Modifier.width(20.dp)
                     )
                 },
                 shape = RoundedCornerShape(40.dp),
-
-
-                )
-
-
+            )
         }
 
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly, // Espaçamento uniforme
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Ícone 1 - Bolo
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFFFF4A4A), shape = CircleShape), // Cor vermelha arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.imagebolo), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Bolo",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
-
-            // Ícone 2 - Sacola de compras
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFF4A1A1A), shape = CircleShape), // Cor marrom arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bolsadecompras), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Sacola",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
-
-            // Ícone 3 - Cupcake
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFFFF4A4A), shape = CircleShape), // Cor vermelha arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bolinho), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Cupcake",
-                    modifier = Modifier.size(35.dp)
-                )
-            }
-        }
+        // ... demais componentes ...
 
         Spacer(Modifier.height(10.dp))
-
-        botoesPendentesAceita(navController)
-
+        botoesPendentesAceitaEncomendaAceita(navController)
         Spacer(Modifier.height(20.dp))
 
         if (carregando) {
@@ -306,15 +235,16 @@ fun telaAdministrador(
             LazyColumn {
                 items(lista.size) { index ->
                     val encomenda = lista[index]
-                    if (encomenda.andamento == "AGUARDANDO"){
-                        card(encomenda, viewModel, navController)
-                    }
+                    // Exibir só encomendas com status ACEITO (ajustar conforme o nome real)
+
+                        cardAceita(encomenda, viewModel, navController)
+
                 }
             }
         }
     }
-
 }
+
 
 @Preview(
     showBackground = true,
@@ -322,10 +252,10 @@ fun telaAdministrador(
     device = Devices.PIXEL_2
 )
 @Composable
-fun showTelaEncomendasPendenteAdm() {
+fun showTelaEncomendasAceitasAdm() {
     ConfeitechMobileTheme {
         val navController = rememberNavController()
-        telaAdministrador(
+        telaAdministradorEncomendaAceita(
             viewModel = EncomendaViewModel(),
             navController = navController
         )

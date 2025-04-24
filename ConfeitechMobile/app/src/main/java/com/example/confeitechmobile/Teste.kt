@@ -13,7 +13,7 @@ import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import com.example.confeitechmobile.viewmodel.EncomendaViewModel
 
 @Composable
-fun TelaEncomendas(viewModel: EncomendaViewModel) {
+fun TelaEncomendass(viewModel: EncomendaViewModel) {
     val lista = viewModel.lista
     val carregando = viewModel.isChamandoApi()
     val erros = viewModel.erros
@@ -57,7 +57,7 @@ fun TelaEncomendas(viewModel: EncomendaViewModel) {
 @Composable
 fun teste() {
     ConfeitechMobileTheme {
-        TelaEncomendas(
+        TelaEncomendass(
             viewModel = EncomendaViewModel()
         )
     }

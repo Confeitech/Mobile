@@ -1,21 +1,47 @@
 package com.example.confeitechmobile
 
-import com.example.confeitechmobile.model.EncomendaDTO
+import com.example.confeitechmobile.dto.AndamentoDTO
+import com.example.confeitechmobile.dto.BoloDTO
+import com.example.confeitechmobile.dto.EncomendaDTO
+import com.example.confeitechmobile.dto.UsuarioDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.Path
 
 interface ConfeitechApi {
-    @GET("encomendas")
+    @GET("encomendas/aguardando")
     suspend fun get(): List<EncomendaDTO>
 
+    @PATCH("encomendas/{id}")
+    suspend fun atualizarAndamento(
+        @Path("id") id: Long,
+        @Body andamento: AndamentoDTO
+    ): EncomendaDTO
+
+    @GET("encomendas/aceitas")
+    suspend fun getAceitas(): List<EncomendaDTO>
+
+    @GET("encomendas/user/1")
+    suspend fun getEncomendasByUsuario(): List<EncomendaDTO>
+
+    @GET("/cakes")
+    suspend fun getCardapio(): List<BoloDTO>
+
+    @GET("cakes/1")
+    suspend fun getBolo1(): BoloDTO
+
+    @GET("/users")
+    suspend fun getUsers(): List<UsuarioDTO>
 }
 
 object ConfeitechApiSla {
 
-    private val BASE_URL = "http://10.0.2.2:8080/"
+    private val BASE_URL = "http://52.54.253.70:8080/"
 
     val api: ConfeitechApi by lazy {
 

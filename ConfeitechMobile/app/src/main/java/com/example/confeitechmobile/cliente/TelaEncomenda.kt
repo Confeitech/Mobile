@@ -22,6 +22,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -36,137 +39,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.confeitechmobile.R
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import androidx.navigation.compose.rememberNavController
-
-//@Composable
-//fun Adicionais(nome: String, preco: String) {
-//
-//    // ADICIONAIS
-//    Row {
-//        Spacer(modifier = Modifier.weight(0.1f))
-//        Text(
-//            text = "Adicionais",
-//            style = TextStyle(
-//                fontSize = 15.sp,
-//                fontWeight = FontWeight.Bold,
-//            ),
-//            modifier = Modifier.weight(0.9f)
-//        )
-//    }
-//
-//    Spacer(modifier = Modifier.height(10.dp))
-//
-//    // CARDS
-//    Row(
-//        modifier = Modifier
-//            .horizontalScroll(rememberScrollState()), // Adiciona scroll horizontal
-//        horizontalArrangement = Arrangement.spacedBy(16.dp)
-//    ) {
-//
-//        //PARTE DE CIMA
-//        Spacer(modifier = Modifier.width(25.dp))
-//
-//        Column(
-//            modifier = Modifier
-//                .background(
-//                    color = Color(97, 48, 48),
-//                    shape = RoundedCornerShape(15.dp)
-//                )
-//                .height(120.dp)
-//                .width(90.dp),
-//
-//            ) {
-//            Spacer(modifier = Modifier.height(5.dp))
-//            Text(
-//                text = "Banana",
-//                style = TextStyle(
-//                    fontSize = 15.sp,
-//                    textAlign = TextAlign.Center,
-//                    color = Color.White
-//                ),
-//                modifier = Modifier.fillMaxWidth()
-//            )
-//            Spacer(modifier = Modifier.height(2.dp))
-//            Text(
-//                text = "R$ 2,00",
-//                style = TextStyle(
-//                    fontSize = 15.sp,
-//                    fontWeight = FontWeight.Bold,
-//                    textAlign = TextAlign.Center,
-//                    color = Color.White
-//                ),
-//                modifier = Modifier.fillMaxWidth()
-//            )
-//
-//            //LINHA
-//            Spacer(modifier = Modifier.height(15.dp))
-//            Box(
-//                modifier = Modifier
-//                    .height(1.dp)
-//                    .fillMaxWidth()
-//                    .background(color = Color.White)
-//            )
-//            Spacer(modifier = Modifier.height(10.dp))
-//
-//            //PARTE DEBAIXO
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(30.dp)
-//            ) {
-//                Spacer(Modifier.width(10.dp))
-//                Text(
-//                    text = "-",
-//                    modifier = Modifier
-//                        .weight(0.2f)
-//                        .fillMaxHeight()
-//                        .absoluteOffset(y = (-3).dp),
-//                    style = TextStyle(
-//                        fontSize = 30.sp,
-//                        fontWeight = FontWeight.Bold
-//                    ),
-//                    color = Color.White,
-//                    textAlign = TextAlign.Center
-//                )
-//                Text(
-//                    text = "1",
-//                    modifier = Modifier
-//                        .weight(0.3f)
-//                        .fillMaxHeight()
-//                        .align(Alignment.CenterVertically),
-//                    style = TextStyle(
-//                        textAlign = TextAlign.Center,
-//                        fontSize = 25.sp,
-//                    ),
-//                    color = Color.White
-//                )
-//                Text(
-//                    text = "+",
-//                    modifier = Modifier
-//                        .weight(0.2f)
-//                        .fillMaxHeight()
-//                        .absoluteOffset(y = (-3).dp),
-//                    style = TextStyle(
-//                        fontSize = 30.sp
-//                    ),
-//                    color = Color.White,
-//                    textAlign = TextAlign.Center
-//                )
-//                Spacer(Modifier.width(10.dp))
-//            }
-//
-//
-//        }
-//
-//    }
-//
-//}
+import com.example.confeitechmobile.dto.BoloDTO
+import com.example.confeitechmobile.model.CardapioViewModel
 
 @Composable
 fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -212,7 +95,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                         modifier = Modifier.weight(0.1f)
                     )
                     Text(
-                        text = "Bolo de Hershey's",
+                        text = "Bolo de Chocolate",
                         modifier = Modifier.width(170.dp),
                         style = TextStyle(
                             fontSize = 30.sp,
@@ -228,7 +111,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                             .height(90.dp)
                     ) {
                         Text(
-                            text = "35,99",
+                            text = "19,00",
                             modifier = Modifier.weight(0.1f),
                             style = TextStyle(
                                 fontSize = 30.sp,
@@ -283,7 +166,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                 Row {
                     Spacer(modifier = Modifier.weight(0.1f))
                     Text(
-                        text = "Um bolo de Hershey’s irresistível, macio e cremoso, com sabor intenso de chocolate, textura suave e cobertura deliciosa",
+                        text = "Uma versão deliciosa do tradicional bolo de chocolate, com massa macia e vibrante.",
                         style = TextStyle(
                             fontSize = 15.sp,
                             color = Color(0xFF481F1F)
@@ -294,8 +177,6 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                 }
 
                 Spacer(modifier = Modifier.height(18.dp))
-
-//                Adicionais("", "")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
