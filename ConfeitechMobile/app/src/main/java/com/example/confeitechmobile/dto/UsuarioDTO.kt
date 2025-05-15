@@ -9,4 +9,3 @@ data class UsuarioDTO(
     var email: String? = null,
     var cep: String? = null
 )
-

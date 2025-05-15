@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,21 +32,32 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.confeitechmobile.model.codigoViewModel
+import com.example.confeitechmobile.model.loginViewModel
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun telaLogin(navController: NavController, viewModel: codigoViewModel) {
+fun telaLogin(navController: NavController, viewModel: loginViewModel) {
     var valorEmail by remember { mutableStateOf("") }
     var valorSenha by remember { mutableStateOf("") }
     var valorCodigo by remember { mutableStateOf("") }
 
     var verCodigo = remember { mutableStateOf(false) }
+
+
+    val uiState by viewModel.loginUiState
+
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState.sucessoLogin) {
+        if (uiState.sucessoLogin != null) {
+            verCodigo.value = true
+        }
+    }
+
 
 
     Box(
@@ -103,6 +115,15 @@ fun telaLogin(navController: NavController, viewModel: codigoViewModel) {
                             .width(250.dp),
                     )
 
+                    uiState.erro?.let { erroMsg ->
+                        Text(
+                            text = erroMsg,
+                            color = Color.Red,
+                            modifier = Modifier.padding(top = 8.dp, start = 30.dp)
+                        )
+                    }
+
+
                     if (verCodigo.value) {
                         Spacer(Modifier.height(20.dp))
                         Text("Codigo")
@@ -129,8 +150,8 @@ fun telaLogin(navController: NavController, viewModel: codigoViewModel) {
                             onClick = {
                                 coroutineScope.launch {
                                     if (!verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank()) {
-                                        verCodigo.value = true
-                                        viewModel.carregarCardapio()
+                                        viewModel.login(valorEmail, valorSenha)
+//                                        verCodigo.value = true
                                     } else if (verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank() && valorCodigo.isNotBlank()) {
                                         navController.navigate("telaCardapio")
                                     }
@@ -179,7 +200,7 @@ fun telaLogin(navController: NavController, viewModel: codigoViewModel) {
 fun showTelaLogin() {
     ConfeitechMobileTheme {
         telaLogin(
-            viewModel = codigoViewModel(),
+            viewModel = loginViewModel(),
             navController = rememberNavController()
         )
     }

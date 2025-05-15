@@ -90,6 +90,17 @@ fun botoesEncomenda(navController: NavController) {
 
 @Composable
 fun cardTelaEncomendasCliente(encomenda: EncomendaDTO, viewModel: EncomendaViewModel) {
+    var status = "Aguardando";
+    if (encomenda.andamento.equals("AGUARDANDO")) {
+        status = "Aguardando"
+    } else if (encomenda.andamento.equals("EM_PREPARO")) {
+        status = "Preparando"
+    } else if (encomenda.andamento.equals("CANCELADA")) {
+        status = "Cancelada"
+    } else if (encomenda.andamento.equals("PRONTA") ) {
+        status = "Pronta"
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -118,7 +129,7 @@ fun cardTelaEncomendasCliente(encomenda: EncomendaDTO, viewModel: EncomendaViewM
                 Text("R$${encomenda.preco}", color = Color.White, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "${encomenda.andamento}",
+                    "${status}",
                     color = Color(0xFFE8C547),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp

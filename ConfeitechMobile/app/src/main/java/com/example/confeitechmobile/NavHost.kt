@@ -15,7 +15,7 @@ import com.example.confeitechmobile.cliente.telaEncomendasCliente
 import com.example.confeitechmobile.loginCadastro.telaCadastro
 import com.example.confeitechmobile.loginCadastro.telaLogin
 import com.example.confeitechmobile.model.CardapioViewModel
-import com.example.confeitechmobile.model.codigoViewModel
+import com.example.confeitechmobile.model.loginViewModel
 import com.example.confeitechmobile.viewmodel.EncomendaViewModel
 
 @Composable
@@ -23,7 +23,7 @@ fun AppNavigation(viewModel: EncomendaViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "telaLogin") {
         composable("telaLogin") {
-            telaLogin(navController = navController, viewModel = codigoViewModel())
+            telaLogin(navController = navController, viewModel = loginViewModel())
         }
         composable("telaCadastro") {
             telaCadastro(navController = navController)

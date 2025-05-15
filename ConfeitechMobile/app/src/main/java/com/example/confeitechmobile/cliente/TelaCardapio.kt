@@ -333,6 +333,13 @@ fun Arrumacao(bolo1: BoloDTO, bolo2: BoloDTO, navController: NavController) {
         cardCardapio(painterResource(R.drawable.bolobaunilha), "a", bolo2, navController)
     }
 }
+@Composable
+fun ArrumacaoUmBolo(bolo1: BoloDTO, navController: NavController) {
+    Spacer(Modifier.height(14.dp))
+    Row(Modifier.fillMaxWidth().padding(start = 2.dp)) {
+        cardCardapio(painterResource(R.drawable.bolobaunilha), "a", bolo1, navController)
+    }
+}
 
 @Composable
 fun TelaCardapio(
@@ -403,8 +410,9 @@ fun TelaCardapio(
             ) {
 
                 items(bolos.size) { index ->
-
-                    if (index % 2 == 0) {
+                    if (index % 2 == 0 && index.equals(bolos.size - 1)){
+                        ArrumacaoUmBolo(bolo1 = bolos[index], navController)
+                    }else if (index % 2 == 0) {
                         Arrumacao(bolo1 = bolos[index], bolo2 = bolos[index + 1], navController)
                     }
                 }

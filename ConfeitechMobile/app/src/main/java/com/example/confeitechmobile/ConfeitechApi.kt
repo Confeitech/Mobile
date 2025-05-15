@@ -12,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ConfeitechApi {
     @GET("encomendas/aguardando")
@@ -37,11 +38,21 @@ interface ConfeitechApi {
 
     @GET("/users")
     suspend fun getUsers(): List<UsuarioDTO>
+
+    @GET("/users/login")
+    suspend fun login(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): UsuarioDTO
 }
 
 object ConfeitechApiSla {
 
-    private val BASE_URL = "http://52.54.253.70:8080/"
+//    NUVEM
+//    private val BASE_URL = "http://52.54.253.70:8080/"
+
+//    LOCALHOST
+    private val BASE_URL = "http://10.0.2.2:8080/"
 
     val api: ConfeitechApi by lazy {
 
