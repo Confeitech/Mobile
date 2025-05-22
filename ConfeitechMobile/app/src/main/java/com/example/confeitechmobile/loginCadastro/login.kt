@@ -46,7 +46,7 @@ fun telaLogin(navController: NavController, viewModel: loginViewModel) {
     var valorCodigo by remember { mutableStateOf("") }
 
     var verCodigo = remember { mutableStateOf(false) }
-
+    val isAdmin by viewModel.isAdmin
 
     val uiState by viewModel.loginUiState
 
@@ -152,8 +152,12 @@ fun telaLogin(navController: NavController, viewModel: loginViewModel) {
                                     if (!verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank()) {
                                         viewModel.login(valorEmail, valorSenha)
 //                                        verCodigo.value = true
-                                    } else if (verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank() && valorCodigo.isNotBlank()) {
-                                        navController.navigate("telaCardapio")
+                                    } else if (verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank() && valorCodigo.isNotBlank() && valorCodigo.length == 4 && valorCodigo.all { it.isDigit() } ) {
+                                        if (isAdmin){
+                                            navController.navigate("telaAdministrador")
+                                        } else{
+                                            navController.navigate("telaCardapio")
+                                        }
                                     }
                                 }
                             },

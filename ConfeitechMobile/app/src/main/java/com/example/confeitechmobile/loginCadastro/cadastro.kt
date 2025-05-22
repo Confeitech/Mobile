@@ -32,11 +32,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.confeitechmobile.dto.UsuarioDTO
+import com.example.confeitechmobile.model.loginViewModel
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 
 @Composable
-fun telaCadastro(navController: NavController) {
-    var valorA by remember { mutableStateOf("") }
+fun telaCadastro(navController: NavController, viewModel: loginViewModel) {
+    var valorNome by remember { mutableStateOf("") }
+    var valorEmail by remember { mutableStateOf("") }
+    var valorSenha by remember { mutableStateOf("") }
+    var valorTelefone by remember { mutableStateOf("") }
+
     Box(
         Modifier
             .background(
@@ -69,11 +75,23 @@ fun telaCadastro(navController: NavController) {
                         .padding(start = 30.dp)
                 ) {
                     Spacer(Modifier.height(40.dp))
+                    Text("Nome")
+                    Spacer(Modifier.height(5.dp))
+                    OutlinedTextField(
+                        value = valorNome,
+                        onValueChange = { valorNome = it },
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(250.dp),
+                    )
+
+                    Spacer(Modifier.height(40.dp))
                     Text("E-mail")
                     Spacer(Modifier.height(5.dp))
                     OutlinedTextField(
-                        value = valorA,
-                        onValueChange = { valorA = it },
+                        value = valorEmail,
+                        onValueChange = { valorEmail = it },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .height(60.dp)
@@ -84,8 +102,8 @@ fun telaCadastro(navController: NavController) {
                     Text("Senha")
                     Spacer(Modifier.height(5.dp))
                     OutlinedTextField(
-                        value = valorA,
-                        onValueChange = { valorA = it },
+                        value = valorSenha,
+                        onValueChange = { valorSenha = it },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .height(60.dp)
@@ -96,8 +114,8 @@ fun telaCadastro(navController: NavController) {
                     Text("Telefone")
                     Spacer(Modifier.height(5.dp))
                     OutlinedTextField(
-                        value = valorA,
-                        onValueChange = { valorA = it },
+                        value = valorTelefone,
+                        onValueChange = { valorTelefone = it },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .height(60.dp)
@@ -110,7 +128,21 @@ fun telaCadastro(navController: NavController) {
                         Spacer(Modifier.width(20.dp))
 
                         Button(
-                            onClick = { },
+                            onClick = {
+                                if (valorNome.isNotBlank() && valorEmail.isNotBlank() && valorSenha.isNotBlank() && valorTelefone.isNotBlank()) {
+                                    val usuario = UsuarioDTO(
+                                        nome = valorNome,
+                                        email = valorEmail,
+                                        senha = valorSenha,
+                                        telefone = valorTelefone,
+                                        dtNasc = "2000-01-01",
+                                        ativo = true,
+                                        cep = "05051020",
+                                    )
+                                    viewModel.cadastrarUsuario(usuario)
+                                    navController.navigate("telaLogin")
+                                }
+                            },
                             modifier = Modifier
                                 .height(60.dp)
                                 .width(200.dp),
@@ -126,11 +158,6 @@ fun telaCadastro(navController: NavController) {
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 ),
-                                  modifier = Modifier
-                                        .clickable {
-                                    navController.navigate("telaLogin")
-                                }
-
                             )
                         }
                     }
@@ -159,7 +186,8 @@ fun telaCadastro(navController: NavController) {
 fun showTelaCadastro() {
     ConfeitechMobileTheme {
         telaCadastro(
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            viewModel = loginViewModel()
         )
     }
 }

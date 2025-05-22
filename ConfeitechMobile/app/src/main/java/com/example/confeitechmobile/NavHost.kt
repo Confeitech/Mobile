@@ -2,8 +2,6 @@
 package com.example.confeitechmobile
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,12 +19,21 @@ import com.example.confeitechmobile.viewmodel.EncomendaViewModel
 @Composable
 fun AppNavigation(viewModel: EncomendaViewModel) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "telaLogin") {
+    NavHost(navController = navController,
+//    INICIO PADRÃO
+        startDestination = "telaLogin"
+
+//    INICIO CLIENTE
+//                startDestination = "telaCardapio"
+
+//    INICIO ARI
+//                startDestination = "telaAdministrador"
+    ) {
         composable("telaLogin") {
             telaLogin(navController = navController, viewModel = loginViewModel())
         }
         composable("telaCadastro") {
-            telaCadastro(navController = navController)
+            telaCadastro(navController = navController, viewModel = loginViewModel())
         }
 
         // CLIENTE

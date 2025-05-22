@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -43,6 +44,11 @@ interface ConfeitechApi {
     suspend fun login(
         @Query("email") email: String,
         @Query("password") password: String
+    ): UsuarioDTO
+
+    @POST("/users")
+    suspend fun cadastrarUsuario(
+        @Body usuario: UsuarioDTO
     ): UsuarioDTO
 }
 

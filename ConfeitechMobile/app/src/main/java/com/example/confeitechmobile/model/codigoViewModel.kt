@@ -4,9 +4,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.confeitechmobile.ConfeitechApiSla
-import com.example.confeitechmobile.dto.BoloDTO
-import com.example.confeitechmobile.dto.EncomendaDTO
-import com.example.confeitechmobile.dto.UsuarioDTO
 
 class codigoViewModel : ViewModel() {
 
