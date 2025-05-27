@@ -2,6 +2,7 @@ package com.example.confeitechmobile.adm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.material3.AlertDialog
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -98,8 +100,13 @@ fun botoesPendentesAceitaEncomendaAceita(navController: NavController) {
 
 @Composable
 fun cardAceita(
-    encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navController: NavController
+    encomendaDTO: EncomendaDTO,
+    viewModel: EncomendaViewModel,
+    navController: NavController
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    var status by remember { mutableStateOf(encomendaDTO.andamento ?: "EM PREPARO") }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,60 +127,75 @@ fun cardAceita(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     encomendaDTO.bolo?.nome ?: "Bolo Desconhecido",
-//                    "Bolo Desconhecido",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color(android.graphics.Color.parseColor("#FFD9D9"))
                 )
 
-                Text(
-                    "retirada: ${encomendaDTO.dataRetirada ?: "Data não informada"}",
-//                    "data",
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
-                Text(
-                    "R$ ${encomendaDTO.preco ?: "Preço indefinido"}",
-//                    "R$ Preco",
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
-                Text(
-//                    "Cliente: ${encomendaDTO?.userDTO?.nome ?: "Preço indefinido"}",
-                    "Cliente: aaaaa",
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
+                Text("retirada: ${encomendaDTO.dataRetirada ?: "Data não informada"}", color = Color.White)
+                Text("R$ ${encomendaDTO.preco ?: "Preço indefinido"}", color = Color.White)
+                Text("Cliente: ${encomendaDTO.userDTO?.nome ?: "Nome não informado"}", color = Color.White)
+
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(), // Preenche a largura total
-                    horizontalArrangement = Arrangement.SpaceEvenly  // Alinhamento à direita
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-
+                    // ✅ Este texto abre o AlertDialog ao ser clicado
                     Text(
-//                        "${encomendaDTO.andamento}",
-                        "Em preparo",
+                        text = status,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 25.sp,
+                        modifier = Modifier.clickable { showDialog = true }
                     )
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Ícone do botão",
-                        tint = Color.White,
-                        modifier = Modifier
+                        tint = Color.White
                     )
-
                 }
             }
-
-
         }
+    }
 
-
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Alterar status") },
+            text = {
+                Column {
+                    val options = listOf("EM PREPARO", "RECUSADO", "FINALIZADO")
+                    options.forEach { option ->
+                        Text(
+                            text = option,
+                            fontSize = 18.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .clickable {
+                                    status = option
+                                    showDialog = false
+                                    // Aqui você pode chamar viewModel para atualizar no backend
+                                    // viewModel.atualizarStatus(encomendaDTO.id, option)
+                                }
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
     }
 }
+
+
+
+
 @Composable
 fun telaAdministradorEncomendaAceita(
     viewModel: EncomendaViewModel,
