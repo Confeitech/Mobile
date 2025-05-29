@@ -241,57 +241,6 @@ fun telaAdministrador(
 
         }
 
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly, // Espaçamento uniforme
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Ícone 1 - Bolo
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFFFF4A4A), shape = CircleShape), // Cor vermelha arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.imagebolo), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Bolo",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
-
-            // Ícone 2 - Sacola de compras
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFF4A1A1A), shape = CircleShape), // Cor marrom arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bolsadecompras), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Sacola",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
-
-            // Ícone 3 - Cupcake
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(Color(0xFFFF4A4A), shape = CircleShape), // Cor vermelha arredondada
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bolinho), // Substitua pelo seu recurso
-                    contentDescription = "Ícone Cupcake",
-                    modifier = Modifier.size(35.dp)
-                )
-            }
-        }
-
         Spacer(Modifier.height(10.dp))
 
         botoesPendentesAceita(navController)

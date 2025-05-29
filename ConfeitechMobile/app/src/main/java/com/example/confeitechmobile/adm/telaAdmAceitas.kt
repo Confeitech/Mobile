@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.confeitechmobile.R
+import com.example.confeitechmobile.dto.AndamentoEncomenda
 import com.example.confeitechmobile.dto.EncomendaDTO
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import com.example.confeitechmobile.viewmodel.EncomendaViewModel
@@ -166,8 +167,8 @@ fun cardAceita(
             title = { Text("Alterar status") },
             text = {
                 Column {
-                    val options = listOf("EM PREPARO", "RECUSADO", "FINALIZADO")
-                    options.forEach { option ->
+                    val options = listOf("EM PREPARO", "PRONTA", "CANCELADA")
+                    options.forEachIndexed { index, option ->
                         Text(
                             text = option,
                             fontSize = 18.sp,
@@ -177,8 +178,22 @@ fun cardAceita(
                                 .clickable {
                                     status = option
                                     showDialog = false
-                                    // Aqui você pode chamar viewModel para atualizar no backend
-                                    // viewModel.atualizarStatus(encomendaDTO.id, option)
+
+
+                                    val andamento = when (index) {
+                                        0 -> AndamentoEncomenda.EM_PREPARO
+                                        1 -> AndamentoEncomenda.PRONTA
+                                        2 -> AndamentoEncomenda.CANCELADA
+                                        else -> null
+                                    }
+
+                                    andamento?.let {
+                                        viewModel.atualizarAndamentoEncomenda(encomendaDTO.id ?: 0, it)
+                                    }
+
+//                                    encomendaDTO.id?.let { id ->
+//                                        viewModel.atualizarAndamentoEncomenda(id, option)
+//                                    }
                                 }
                         )
                     }
