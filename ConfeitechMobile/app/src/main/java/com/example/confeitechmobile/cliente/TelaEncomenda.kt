@@ -46,7 +46,16 @@ import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 import androidx.navigation.compose.rememberNavController
 import com.example.confeitechmobile.dto.BoloDTO
 import com.example.confeitechmobile.model.CardapioViewModel
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.TextField
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import java.util.Calendar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
 
@@ -190,18 +199,82 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                         )
                     )
                 }
-                Row {
-                    Spacer(modifier = Modifier.width(40.dp))
+                // Variáveis de estado
+                val dias = (1..31).map { it.toString().padStart(2, '0') }
+                val meses = (1..12).map { it.toString().padStart(2, '0') }
+                val anoAtual = Calendar.getInstance().get(Calendar.YEAR)
+                val anos = (anoAtual..(anoAtual + 2)).map { it.toString() }
 
-                    Image(
-                        painter = painterResource(R.drawable.calendario),
-                        contentDescription = "imagem de alguma coisa",
-                        modifier = Modifier
-                            .width(325.dp)
-                            .padding(top = 30.dp)
-                            .zIndex(1f),
-                        contentScale = ContentScale.Crop,
-                    )
+                var diaSelecionado by remember { mutableStateOf(dias.first()) }
+                var mesSelecionado by remember { mutableStateOf(meses.first()) }
+                var anoSelecionado by remember { mutableStateOf(anos.first()) }
+
+                var expandedDia by remember { mutableStateOf(false) }
+                var expandedMes by remember { mutableStateOf(false) }
+                var expandedAno by remember { mutableStateOf(false) }
+                Row {
+                    // Dia
+                    ExposedDropdownMenuBox(
+                        expanded = expandedDia,
+                        onExpandedChange = { expandedDia = !expandedDia }
+                    ) {
+                        TextField(
+                            value = diaSelecionado,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Dia") },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedDia) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .weight(1f)
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expandedDia,
+                            onDismissRequest = { expandedDia = false }
+                        ) {
+                            dias.forEach { dia ->
+                                DropdownMenuItem(
+                                    text = { Text(dia) },
+                                    onClick = {
+                                        diaSelecionado = dia
+                                        expandedDia = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    // Mês
+                    ExposedDropdownMenuBox(
+                        expanded = expandedMes,
+                        onExpandedChange = { expandedMes = !expandedMes }
+                    ) {
+                        TextField(
+                            value = mesSelecionado,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Mês") },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMes) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .weight(1f)
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expandedMes,
+                            onDismissRequest = { expandedMes = false }
+                        ) {
+                            meses.forEach { mes ->
+                                DropdownMenuItem(
+                                    text = { Text(mes) },
+                                    onClick = {
+                                        mesSelecionado = mes
+                                        expandedMes = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -238,6 +311,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
 }
+
 
 @Preview(
     showBackground = true,

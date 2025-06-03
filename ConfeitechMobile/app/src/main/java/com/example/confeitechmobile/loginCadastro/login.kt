@@ -158,7 +158,6 @@ fun telaLogin(navController: NavController, viewModel: loginViewModel) {
                             onClick = {
                                 coroutineScope.launch {
                                     if (!verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank()) {
-                                        navController.navigate("telaCardapio") //APENAS PARA TESTE
                                         viewModel.login(valorEmail, valorSenha)
 //                                        verCodigo.value = true
                                     } else if (verCodigo.value && valorEmail.isNotBlank() && valorSenha.isNotBlank() && valorCodigo.isNotBlank() && valorCodigo.length == 4 && valorCodigo.all { it.isDigit() } ) {
