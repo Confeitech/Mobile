@@ -52,7 +52,7 @@ import com.example.confeitechmobile.model.CardapioViewModel
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
 
 @Composable
-fun Destaque(navController: NavController ,boloDestaque: BoloDTO){
+fun Destaque(navController: NavController, boloDestaque: BoloDTO) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -131,7 +131,9 @@ fun Destaque(navController: NavController ,boloDestaque: BoloDTO){
                     Spacer(Modifier.width(30.dp))
 
                     Button(
-                        onClick = { navController.navigate("telaEncomenda") },
+                        onClick = {
+                            navController.navigate("telaEncomenda/${boloDestaque.id}")
+                        },
                         modifier = Modifier
                             .height(40.dp)
                             .width(165.dp),
@@ -213,7 +215,7 @@ fun cardCardapio(image: Painter, texto: String, boloDTO: BoloDTO, navController:
             Spacer(Modifier.height(5.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Button(
-                    onClick = { navController.navigate("telaEncomenda") },
+                    onClick = { navController.navigate("telaEncomenda/${boloDTO.id}") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFF28181),
                         contentColor = Color.White
@@ -262,8 +264,9 @@ fun nav(navController: NavController) {
             Icon(
                 imageVector = Icons.Filled.ShoppingCart,
                 contentDescription = "Carrinho de compras",
-                modifier = Modifier.height(55.dp)
-                    .clickable{
+                modifier = Modifier
+                    .height(55.dp)
+                    .clickable {
                         navController.navigate("telaAdministrador")
                     }
             )
@@ -329,10 +332,13 @@ fun Arrumacao(bolo1: BoloDTO, bolo2: BoloDTO, navController: NavController) {
         cardCardapio(painterResource(R.drawable.bolobaunilha), "a", bolo2, navController)
     }
 }
+
 @Composable
 fun ArrumacaoUmBolo(bolo1: BoloDTO, navController: NavController) {
     Spacer(Modifier.height(14.dp))
-    Row(Modifier.fillMaxWidth().padding(start = 2.dp)) {
+    Row(Modifier
+        .fillMaxWidth()
+        .padding(start = 2.dp)) {
         cardCardapio(painterResource(R.drawable.bolobaunilha), "a", bolo1, navController)
     }
 }
@@ -376,7 +382,7 @@ fun TelaCardapio(
         } else if (bolos.isEmpty()) {
 
         } else {
-            Destaque(navController,bolos[0])
+            Destaque(navController, bolos[0])
         }
 
         Spacer(Modifier.height(20.dp))
@@ -406,9 +412,9 @@ fun TelaCardapio(
             ) {
 
                 items(bolos.size) { index ->
-                    if (index % 2 == 0 && index.equals(bolos.size - 1)){
+                    if (index % 2 == 0 && index.equals(bolos.size - 1)) {
                         ArrumacaoUmBolo(bolo1 = bolos[index], navController)
-                    }else if (index % 2 == 0) {
+                    } else if (index % 2 == 0) {
                         Arrumacao(bolo1 = bolos[index], bolo2 = bolos[index + 1], navController)
                     }
                 }

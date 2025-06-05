@@ -8,6 +8,7 @@ import com.example.confeitechmobile.ConfeitechApiSla
 import com.example.confeitechmobile.dto.AndamentoDTO
 import com.example.confeitechmobile.dto.AndamentoEncomenda
 import com.example.confeitechmobile.dto.EncomendaDTO
+import com.example.confeitechmobile.dto.EncomendaDTOCriar
 import kotlinx.coroutines.launch
 
 class EncomendaViewModel : ViewModel() {
@@ -84,12 +85,12 @@ class EncomendaViewModel : ViewModel() {
         }
     }
 
-    fun carregarEncomendasPorUsuario() {
+    fun carregarEncomendasPorUsuario(idUsuario: Long) {
         erros.clear()
         viewModelScope.launch {
             chamandoApi.value = true
             try {
-                val resposta = api.getEncomendasByUsuario()
+                val resposta = api.getEncomendasByUsuario(idUsuario)
                 if (resposta.isNotEmpty()) {
                     lista.clear()
                     lista.addAll(resposta)
@@ -101,5 +102,22 @@ class EncomendaViewModel : ViewModel() {
             }
         }
     }
+
+    fun criarEncomenda(novaEncomenda: EncomendaDTOCriar, onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
+        viewModelScope.launch {
+            chamandoApi.value = true
+            try {
+                val resposta = api.criarEncomenda(novaEncomenda)
+                onSuccess()
+            } catch (e: Exception) {
+                val erroMsg = "Erro ao criar encomenda: ${e.message}"
+                erros.add(erroMsg)
+                onError(erroMsg)
+            } finally {
+                chamandoApi.value = false
+            }
+        }
+    }
+
 }
 

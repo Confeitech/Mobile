@@ -53,11 +53,33 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.example.confeitechmobile.UsuarioSessao
+import com.example.confeitechmobile.dto.EncomendaDTO
+import com.example.confeitechmobile.dto.EncomendaDTOCriar
+import com.example.confeitechmobile.dto.UsuarioDTO
+import com.example.confeitechmobile.viewmodel.EncomendaViewModel
+import org.w3c.dom.Text
 import java.util.Calendar
+import kotlin.Long
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
+fun TelaEncomenda(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    identificadorBolo: Int,
+    viewModel: CardapioViewModel,
+    encomendaViewModel: EncomendaViewModel
+) {
+
+    val boloState = remember { mutableStateOf<BoloDTO?>(null) }
+
+    LaunchedEffect(identificadorBolo) {
+        val bolo = viewModel.carregarBoloPorId(identificadorBolo)
+        boloState.value = bolo
+    }
+
+    val bolo = boloState.value
 
     Column(
         modifier = Modifier
@@ -104,7 +126,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                         modifier = Modifier.weight(0.1f)
                     )
                     Text(
-                        text = "Bolo de Chocolate",
+                        text = bolo?.nome ?: "Carregando...",
                         modifier = Modifier.width(170.dp),
                         style = TextStyle(
                             fontSize = 30.sp,
@@ -120,8 +142,8 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                             .height(90.dp)
                     ) {
                         Text(
-                            text = "19,00",
-                            modifier = Modifier.weight(0.1f),
+                            text = bolo?.preco?.toString() ?: "Carregando...",
+                            modifier = Modifier.width(170.dp),
                             style = TextStyle(
                                 fontSize = 30.sp,
                                 fontStyle = FontStyle.Normal,
@@ -175,7 +197,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                 Row {
                     Spacer(modifier = Modifier.weight(0.1f))
                     Text(
-                        text = "Uma versão deliciosa do tradicional bolo de chocolate, com massa macia e vibrante.",
+                        text = bolo?.descricao ?: "Carregando...",
                         style = TextStyle(
                             fontSize = 15.sp,
                             color = Color(0xFF481F1F)
@@ -185,7 +207,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                     Spacer(modifier = Modifier.weight(0.1f))
                 }
 
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(38.dp))
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -281,7 +303,29 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
 
                 Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                     Button(
-                        onClick = { navController.navigate("telaEncomendasCliente") },
+                        onClick = {
+//                            navController.navigate("telaEncomendasCliente")
+
+                            bolo?.let {
+                                val dataRetirada = "2025-${mesSelecionado}-${diaSelecionado}"
+                                val precoSeguro: Double = it.preco ?: 29.99
+
+                                val novaEncomenda = EncomendaDTOCriar(
+                                    preco = precoSeguro,
+                                    observacoes = it.descricao,
+                                    peso = 0.0,
+                                    bolo = identificadorBolo.toLong(),
+                                    dataRetirada = dataRetirada,
+                                    user = UsuarioSessao.idUsuario!!.toLong()
+                                )
+
+                                encomendaViewModel.criarEncomenda(novaEncomenda)
+                                navController.navigate("telaEncomendasCliente")
+                            }
+
+
+
+                        },
                         modifier = Modifier
                             .height(80.dp)
                             .width(250.dp),
@@ -306,7 +350,7 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(50.dp))
             }
         }
     }
@@ -322,6 +366,11 @@ fun TelaEncomenda(navController: NavController, modifier: Modifier = Modifier) {
 fun showTelaDescricaoBolo() {
     ConfeitechMobileTheme {
         val navController = rememberNavController()
-        TelaEncomenda(navController = navController)
+        TelaEncomenda(
+            navController = navController,
+            identificadorBolo = 1,
+            viewModel = CardapioViewModel(),
+            encomendaViewModel = EncomendaViewModel()
+        )
     }
 }

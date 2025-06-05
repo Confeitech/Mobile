@@ -1,6 +1,7 @@
 package com.example.confeitechmobile.dto
 
 data class UsuarioDTO(
+    var id: Long? = null,
     var nome: String? = null,
     var senha: String? = null,
     var telefone: String? = null,

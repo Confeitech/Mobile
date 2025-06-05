@@ -48,6 +48,22 @@ class CardapioViewModel : ViewModel() {
         }
     }
 
+    suspend fun carregarBoloPorId(id: Int): BoloDTO {
+        chamandoApi.value = true
+        erros.clear()
+
+        return try {
+            val resposta = api.getBoloById(id)
+            resposta
+        } catch (e: Exception) {
+            erros.add("Erro ao buscar bolo com id $id: ${e.message}")
+            BoloDTO() // ou retorne null e mude a assinatura se quiser tratar isso
+        } finally {
+            chamandoApi.value = false
+        }
+    }
+
+
     fun limparErros() {
         erros.clear()
     }

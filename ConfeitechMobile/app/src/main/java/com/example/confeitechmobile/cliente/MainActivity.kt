@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -34,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.confeitechmobile.R
+import com.example.confeitechmobile.UsuarioSessao
 import com.example.confeitechmobile.dto.AndamentoEncomenda
 import com.example.confeitechmobile.dto.EncomendaDTO
 import com.example.confeitechmobile.ui.theme.ConfeitechMobileTheme
@@ -169,7 +172,7 @@ fun telaEncomendasCliente(
 
     // Faz a requisição ao abrir a tela
     LaunchedEffect(Unit) {
-        viewModel.carregarEncomendasPorUsuario()
+        viewModel.carregarEncomendasPorUsuario(UsuarioSessao.idUsuario!!)
     }
 
     Column(
@@ -182,6 +185,7 @@ fun telaEncomendasCliente(
                     )
                 ),
             )
+            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

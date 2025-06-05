@@ -3,6 +3,7 @@ package com.example.confeitechmobile
 import com.example.confeitechmobile.dto.AndamentoDTO
 import com.example.confeitechmobile.dto.BoloDTO
 import com.example.confeitechmobile.dto.EncomendaDTO
+import com.example.confeitechmobile.dto.EncomendaDTOCriar
 import com.example.confeitechmobile.dto.UsuarioDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,8 +29,10 @@ interface ConfeitechApi {
     @GET("encomendas/aceitas")
     suspend fun getAceitas(): List<EncomendaDTO>
 
-    @GET("encomendas/user/1")
-    suspend fun getEncomendasByUsuario(): List<EncomendaDTO>
+    @GET("encomendas/user/{idUsuario}")
+    suspend fun getEncomendasByUsuario(
+        @Path("idUsuario") idUsuario: Long
+    ): List<EncomendaDTO>
 
     @GET("/cakes")
     suspend fun getCardapio(): List<BoloDTO>
@@ -50,6 +53,16 @@ interface ConfeitechApi {
     suspend fun cadastrarUsuario(
         @Body usuario: UsuarioDTO
     ): UsuarioDTO
+
+    @GET("/cakes/{id}")
+    suspend fun getBoloById(
+        @Path("id") id: Int
+    ): BoloDTO
+
+    @POST("/encomendas")
+    suspend fun criarEncomenda(
+        @Body encomenda: EncomendaDTOCriar
+    ): EncomendaDTOCriar
 }
 
 object ConfeitechApiSla {

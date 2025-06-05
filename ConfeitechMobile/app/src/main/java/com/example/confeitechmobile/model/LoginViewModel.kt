@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.confeitechmobile.ConfeitechApiSla
+import com.example.confeitechmobile.UsuarioSessao
 import com.example.confeitechmobile.dto.UsuarioDTO
 import kotlinx.coroutines.launch
 
@@ -32,6 +33,9 @@ class loginViewModel : ViewModel() {
             try {
                 api.getUsers()
                 val usuario = api.login(email, password)
+
+                UsuarioSessao.idUsuario = usuario.id
+
                 if (usuario.email == "ari@gmail.com") {
                     isAdmin.value = true
                 }
