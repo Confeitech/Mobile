@@ -53,6 +53,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import coil.compose.AsyncImage
 import com.example.confeitechmobile.UsuarioSessao
 import com.example.confeitechmobile.dto.EncomendaDTO
 import com.example.confeitechmobile.dto.EncomendaDTOCriar
@@ -87,8 +88,8 @@ fun TelaEncomenda(
             .fillMaxHeight()
     ) {
         // IMAGEM
-        Image(
-            painter = painterResource(R.drawable.bolochocolate),
+        AsyncImage(
+            model = bolo?.image, // A URL da imagem
             contentDescription = "imagem de alguma coisa",
             modifier = Modifier
                 .height(425.dp)
@@ -235,6 +236,7 @@ fun TelaEncomenda(
                 var expandedMes by remember { mutableStateOf(false) }
                 var expandedAno by remember { mutableStateOf(false) }
                 Row {
+                    Spacer(modifier = Modifier.width(40.dp))
                     // Dia
                     ExposedDropdownMenuBox(
                         expanded = expandedDia,
@@ -248,7 +250,8 @@ fun TelaEncomenda(
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedDia) },
                             modifier = Modifier
                                 .menuAnchor()
-                                .weight(1f)
+                                .weight(0.5f)
+                                .width(100.dp)
                         )
                         ExposedDropdownMenu(
                             expanded = expandedDia,
@@ -265,7 +268,7 @@ fun TelaEncomenda(
                             }
                         }
                     }
-                    // Mês
+                    //
                     ExposedDropdownMenuBox(
                         expanded = expandedMes,
                         onExpandedChange = { expandedMes = !expandedMes }
@@ -279,6 +282,7 @@ fun TelaEncomenda(
                             modifier = Modifier
                                 .menuAnchor()
                                 .weight(1f)
+                                .width(100.dp)
                         )
                         ExposedDropdownMenu(
                             expanded = expandedMes,
@@ -294,9 +298,40 @@ fun TelaEncomenda(
                                 )
                             }
                         }
+                        //anoooooANOOO
+
+
                     }
-
-
+                    ExposedDropdownMenuBox(
+                        expanded = expandedAno,
+                        onExpandedChange = { expandedAno = !expandedAno }
+                    ) {
+                        TextField(
+                            value = anoSelecionado,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Ano") },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedAno) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .weight(10f)
+                                .width(110.dp)
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expandedAno,
+                            onDismissRequest = { expandedAno = false }
+                        ) {
+                            anos.forEach { anos ->
+                                DropdownMenuItem(
+                                    text = { Text(anos) },
+                                    onClick = {
+                                        anoSelecionado = anos
+                                        expandedAno = false
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -307,7 +342,7 @@ fun TelaEncomenda(
 //                            navController.navigate("telaEncomendasCliente")
 
                             bolo?.let {
-                                val dataRetirada = "2025-${mesSelecionado}-${diaSelecionado}"
+                                val dataRetirada = "${anoSelecionado}-${mesSelecionado}-${diaSelecionado}"
                                 val precoSeguro: Double = it.preco ?: 29.99
 
                                 val novaEncomenda = EncomendaDTOCriar(
@@ -322,7 +357,6 @@ fun TelaEncomenda(
                                 encomendaViewModel.criarEncomenda(novaEncomenda)
                                 navController.navigate("telaEncomendasCliente")
                             }
-
 
 
                         },
@@ -350,7 +384,7 @@ fun TelaEncomenda(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
     }

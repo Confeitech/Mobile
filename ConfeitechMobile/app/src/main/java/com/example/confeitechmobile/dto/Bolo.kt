@@ -6,5 +6,6 @@ data class BoloDTO(
     var preco: Double? = null,
     var descricao: String? = null,
     var ativo: Boolean? = null,
-    var adicionais: Any? = null
+    var adicionais: Any? = null,
+    var image: String? = null
 )

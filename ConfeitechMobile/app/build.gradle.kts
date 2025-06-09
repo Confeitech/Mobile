@@ -45,6 +45,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("io.insert-koin:koin-androidx-compose:3.5.6")
     implementation("io.insert-koin:koin-android:3.5.6")
     implementation(libs.androidx.core.ktx)

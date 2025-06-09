@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.confeitechmobile.R
 import com.example.confeitechmobile.dto.AndamentoEncomenda
 import com.example.confeitechmobile.dto.EncomendaDTO
@@ -109,8 +110,8 @@ fun card(encomendaDTO: EncomendaDTO, viewModel: EncomendaViewModel, navControlle
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(R.drawable.bolobolopng),
+            AsyncImage(
+                model = encomendaDTO?.bolo?.image, // A URL da imagem
                 contentDescription = "Imagem do Red Velvet",
                 modifier = Modifier.size(120.dp),
                 contentScale = ContentScale.Crop

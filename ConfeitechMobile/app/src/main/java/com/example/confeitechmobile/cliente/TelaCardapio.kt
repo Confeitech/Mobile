@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.confeitechmobile.R
 import com.example.confeitechmobile.dto.BoloDTO
 import com.example.confeitechmobile.model.CardapioViewModel
@@ -88,9 +89,8 @@ fun Destaque(navController: NavController, boloDestaque: BoloDTO) {
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-
-                    Image(
-                        painter = painterResource(R.drawable.bolochocolate),
+                    AsyncImage(
+                        model = boloDestaque.image, // A URL da imagem
                         contentDescription = "imagem de alguma coisa",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -184,14 +184,14 @@ fun cardCardapio(image: Painter, texto: String, boloDTO: BoloDTO, navController:
                     .fillMaxWidth()
                     .height(125.dp)
             ) {
-                Image(
-                    painter = image,
-                    contentDescription = "imagem de alguma coisa",
+                AsyncImage(
+                    model = boloDTO.image, // A URL da imagem
+                    contentDescription = "Imagem do bolo",
                     modifier = Modifier
                         .width(210.dp)
                         .height(138.dp)
                         .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Crop
                 )
             }
             Spacer(Modifier.height(5.dp))
